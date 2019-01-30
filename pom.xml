@@ -37,7 +37,7 @@
 		<configuration>
 			<user>${databaseuser}</user>
 		        <password>${databasepassword}</password>
-			<url>jdbc:mysql://apg-db-pipeline.ch29bksppiii.ap-southeast-1.rds.amazonaws.com/dbname</url>
+			<url>jdbc:mysql://db-pipeline.ap-southeast-1.rds.amazonaws.com/dbname</url>
 		<locations>
 			<location>filesystem:database/scripts/initial/dbpath</location>
 		</locations>
