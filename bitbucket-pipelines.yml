@@ -21,18 +21,18 @@ pipelines:
          script:
            - ls -lrt
              #- sed -i "s/dbpath/admindb/g" pom.xml
-             # - sed -i "s/dbname/apgadmin/g" pom.xml ; cat pom.xml
+             # - sed -i "s/dbname/admin/g" pom.xml ; cat pom.xml
            - sed -i "s/dbpath/$DB_Path/g" pom.xml
            - sed -i "s/dbname/$DB_Name/g" pom.xml ; cat pom.xml
              # - sed -i "s/dbpath/payflowdb/g" pom.xml
-             #- sed -i "s/dbname/apgpayflow/g" pom.xml ; cat pom.xml
+             #- sed -i "s/dbname/payflow/g" pom.xml ; cat pom.xml
            - ls -lrt
            - cat pom.xml
            - zip -r newfile.zip *
            - pwd
            - ls -lrt
            - apt install -y awscli
-            # - aws s3 cp newfile.zip s3://apg-deployment-bucket/$BITBUCKET_BUILD_NUMBER/
+            # - aws s3 cp newfile.zip s3://deployment-bucket/$BITBUCKET_BUILD_NUMBER/
          artifacts:
           - newfile.zip
      - step:
@@ -44,12 +44,12 @@ pipelines:
           - pwd
           - ls -lrt
           - ls -lrt /opt/atlassian/pipelines/agent
-          - aws s3 cp newfile.zip s3://apg-deployment-bucket/$BITBUCKET_BUILD_NUMBER/
+          - aws s3 cp newfile.zip s3://deployment-bucket/$BITBUCKET_BUILD_NUMBER/
      - step:
         # set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY and AWS_DEFAULT_REGION as environment variables
-        name: Deploy to APG_DB_pipeline
+        name: Deploy to DB_pipeline
         deployment: test   # set to test, staging or production
         trigger: manual  # uncomment to have a manual step
         image: atlassian/pipelines-awscli
         script:
-          - aws deploy create-deployment --application-name APG-Deployment --s3-location bucket=apg-deployment-bucket,key=$BITBUCKET_BUILD_NUMBER/newfile.zip,bundleType=zip --deployment-group-name DB-bitbucketpipeline
+          - aws deploy create-deployment --application-name Deployment --s3-location bucket=deployment-bucket,key=$BITBUCKET_BUILD_NUMBER/newfile.zip,bundleType=zip --deployment-group-name DB-bitbucketpipeline
